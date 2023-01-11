@@ -1,80 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
 
+import * as React from 'react';
+import { View, Text,Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const App =  () => {
- const [data,setData] = useState(null)
-
-useEffect(()=>{
-  fetch('https://jsonplaceholder.typicode.com/posts/1')
-      .then(response => response.json())
-      .then(json => setData(json))
-},[])
- 
+function HomeScreen({navigation}) {
   return (
-    <SafeAreaView >
-      <StatusBar
-        barStyle={"light-content"}
-        backgroundColor={"transparent"}
-        // translucent
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details',{
+            itemId: 86,
+            otherParam: 'anything you want here',
+        })}
       />
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Header</Text>
-        <View style={{height:30,width:30,backgroundColor:"skyblue",borderRadius:15,alignSelf:'center'}}/> 
-      </View>
-      <ScrollView>
-        {/* <Text>{JSON.stringify(data)}</Text> */}
-            <Text style={{fontWeight:"900",fontSize:24,margin:20}}>{data?.title ?? "-"}</Text>
-          <View style={styles.box} >
-            <Text style={{fontWeight:"500",fontSize:20}}>{data?.body ?? "-"}</Text>
-        </View>
-        
-      
-      </ScrollView>
-    </SafeAreaView>
+    </View>
   );
-};
+}
+function DetailsScreen({route, navigation}) {
+  const {itemId,otherParam} = route.params;
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{color:"red"}}>Details Screen</Text>
+      <Text style={{color:"red"}}>itemId: {JSON.stringify(itemId)}</Text>
+      <Text style={{color:"red"}}>otherParam: {JSON.stringify(otherParam)}</Text>
+      <Button
+        title="Go to Home"
+        onPress={() => navigation.navigate('Home')}
+      />
+      <Button
+        title="go back"
+        onPress={() => navigation.goBack()}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.push('Details')}
+      />
+    </View>
+  );
+}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  box: {
-    margin: 20,
-    paddingTop:5,
-    backgroundColor:"salmon"
-  },
-  header:{
-    backgroundColor:"grey",
-    justifyContent:"space-between",
-    flexDirection:'row',
-    paddingHorizontal: 20
 
-  },
-  headerText:{
-    fontWeight:"bold",
-    fontSize:40,
-  }
-});
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} options={{title:"Home Screen" ,headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },}} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;
