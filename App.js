@@ -1,64 +1,54 @@
-
 import * as React from 'react';
-import { View, Text,Button } from 'react-native';
+import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { login } from './src/storages/actions/login'
+import { useDispatch } from 'react-redux'
 
-function HomeScreen({navigation}) {
+function HomeScreen() {
+  const dispatch = useDispatch()
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details',{
-            itemId: 86,
-            otherParam: 'anything you want here',
-        })}
-      />
-    </View>
-  );
-}
-function DetailsScreen({route, navigation}) {
-  const {itemId,otherParam} = route.params;
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{color:"red"}}>Details Screen</Text>
-      <Text style={{color:"red"}}>itemId: {JSON.stringify(itemId)}</Text>
-      <Text style={{color:"red"}}>otherParam: {JSON.stringify(otherParam)}</Text>
-      <Button
-        title="Go to Home"
-        onPress={() => navigation.navigate('Home')}
-      />
-      <Button
-        title="go back"
-        onPress={() => navigation.goBack()}
-      />
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.push('Details')}
-      />
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{color:"red"}}>Home!</Text>
+      <Text style={{color:"red"}} onPress={()=>dispatch(login())}>Login</Text>
+      
     </View>
   );
 }
 
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{color:"red"}}>Settings!</Text>
+    </View>
+  );
+}
+function ListScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{color:"red"}}>ListScreen!</Text>
+    </View>
+  );
+}
+function ProfileScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{color:"red"}}>ProfileScreen!</Text>
+    </View>
+  );
+}
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function App() {
+export default function Router() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{title:"Home Screen" ,headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },}} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen name="ListScreen" component={ListScreen} />
+        <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-export default App;
