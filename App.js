@@ -3,8 +3,14 @@ import * as React from 'react';
 import { View, Text,Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { login } from './src/storages/actions/login';
+import { logout } from './src/storages/actions/logout';
+import { useDispatch, useSelector } from 'react-redux';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 function HomeScreen({navigation}) {
+  const dispatch = useDispatch()
+  const auth = useSelector((state)=>state.auth)
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
@@ -15,6 +21,11 @@ function HomeScreen({navigation}) {
             otherParam: 'anything you want here',
         })}
       />
+      <Button
+        title="Login"
+        onPress={() =>dispatch(login())}
+      />
+      <Text style={{color:"blue",fontSize:40}}>{auth.data?.token}</Text>
     </View>
   );
 }
@@ -41,24 +52,76 @@ function DetailsScreen({route, navigation}) {
   );
 }
 
+function Profile() {
+  const dispatch = useDispatch()
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Profile!</Text>
+      <Button
+        title="logout"
+        onPress={() =>dispatch(logout())}
+      />
+    </View>
+  );
+}
+
+function About() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Profile!</Text>
+    </View>
+  );
+}
+function SplashScreen () {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:"skyblue" }}>
+      <Text>SplashScreen</Text>
+    </View>
+  );
+}
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function App() {
+
+function ButtomNav() {
   return (
-    <NavigationContainer>
+      <Tab.Navigator screenOptions={{tabBarShowLabel:false}} >
+        <Tab.Screen name="Profile" component={Profile}  screenOptions={{ShowLabel:false}} />
+        <Tab.Screen name="About" component={About} />
+      </Tab.Navigator>
+  );
+}
+
+function Router() {
+  const auth = useSelector((state)=>state.auth)
+      return (
+      <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{title:"Home Screen" ,headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },}} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        {
+        
+          auth.data ?
+          (
+            <Stack.Screen name="ButtomNav" component={ButtomNav} screenOptions={{"tabBarShowLabel":false}}   />
+          )
+          :
+          (
+           <>
+           <Stack.Screen name="Home" component={HomeScreen} options={{title:"Home Screen" ,headerStyle: {
+               backgroundColor: '#f4511e',
+             },
+             headerTintColor: '#fff',
+             headerTitleStyle: {
+               fontWeight: 'bold',
+             },}} />
+           <Stack.Screen name="Details" component={DetailsScreen} />
+           </> 
+          )
+        }
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 }
 
-export default App;
+export default Router;
