@@ -9,9 +9,9 @@ export const login = () => {
     return (dispatch, getState) => {
         dispatch({ type: LOGIN_REQUEST })
         
-        let data = [
-            token = "12345678"
-        ]
+        let data = {            
+            token : "12345678"
+        }
 
         dispatch({ type: LOGIN_SUCCESS, payload: data })
     }

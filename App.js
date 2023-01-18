@@ -4,14 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { login } from './src/storages/actions/login'
 import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 function HomeScreen() {
   const dispatch = useDispatch()
+  const auth = useSelector((state)=>state.auth)
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{color:"red"}}>Home!</Text>
       <Text style={{color:"red"}} onPress={()=>dispatch(login())}>Login</Text>
-      
+      <Text style={{color:"red"}}>{auth.data?.token}</Text>
     </View>
   );
 }
