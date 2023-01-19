@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "377833760661",
+    "project_id": "pijar-14045",
+    "storage_bucket": "pijar-14045.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377833760661:android:10f1c6205c8426647a389c",
+        "android_client_info": {
+          "package_name": "com.pijarproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377833760661-m7rc2m73uvmlqmijf1qd1balv32bg466.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pijarproject",
+            "certificate_hash": "26ed18a3d2682c63e79d89885765c4ca2c779af9"
+          }
+        },
+        {
+          "client_id": "377833760661-a2i7omk7qlbb38q1qh798hr1730id8ek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNGuO7nZqyfLM26BhbufqoXpimLxV-p5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377833760661-a2i7omk7qlbb38q1qh798hr1730id8ek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
